@@ -259,7 +259,9 @@ class Embedder(nnx.Module):
       param_dtype: jnp.dtype,
   ):
     self.input_embedding = nnx.Param(
-        rngs.params.normal((vocab_size, embed_dim), dtype=param_dtype),
+        jax.random.normal(
+            rngs.params(), shape=(vocab_size, embed_dim), dtype=param_dtype
+        ),
         out_sharding=shd_config.emb_vd,
     )
     self.shd_config = shd_config
